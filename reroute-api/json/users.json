@@ -1,0 +1,24 @@
+{
+    "users":[
+        {
+            "username": "eleanor",
+            "level": 3,
+            "api_key": "f79600fa-b566-4999-a12c-d1994fb00837"
+        },
+        {
+            "username": "marco",
+            "level": 3,
+            "api_key": "02f4f876-5fe0-401b-b560-5a6f6be59088"
+        },
+        {
+            "username": "test",
+            "level": 1,
+            "api_key": "test-key"
+        },
+        {
+            "username": "mehdi",
+            "level": 10,
+            "api_key": "be5460c7-eec9-4323-a894-fabaeb74831f"
+        }
+    ]
+}

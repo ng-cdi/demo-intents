@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # unsure about starting the cli as a container
+  # just ssh in manually?
+  # cli:
+  #   build: cli/.
+  #   network_mode: host
+  #   hostname: localhost
+  #   stdin_open: true
+  #   tty: true
+  #   depends_on:
+  #     - onos-controller
+
+  mininet:
+    build: mininet/.
+    environment:
+      - MN_FLAGS=
+      - TOPO=/topologies/topo.py
+    privileged: true
+    network_mode: host
+    hostname: localhost
+    tty: true
+    volumes:
+      - ./mininet/topo.py:/topologies/topo.py
+    depends_on:
+      - onos-controller
+
+  onos-controller:
+    container_name: onos-controller
+    image: ghcr.io/ng-cdi/onos-docker:intents-demo
+    #image: mavi0/container-onos-opa:latest
+    hostname: localhost
+    ports:
+      - 8101:8101
+      - 8181:8181
+      - 6653:6653
+      - 6640:6640
+
+  onos-reroute-api:
+    container_name: onos-reroute-api
+    image: mavi0/onos-reroute-api:latest
+    network_mode: host
+    hostname: localhost
+    tty: true
+    volumes:
+      - ./reroute-api/json:/reroute/json
+    environment:
+      - TERM=xterm-256color
