@@ -29,13 +29,14 @@ services:
   onos-controller:
     container_name: onos-controller
     image: ghcr.io/ng-cdi/onos-docker:intents-demo
-    #image: mavi0/container-onos-opa:latest
     hostname: localhost
     ports:
       - 8101:8101
       - 8181:8181
+      - 6633:6633
       - 6653:6653
       - 6640:6640
+      - 9876:9876
 
   onos-reroute-api:
     container_name: onos-reroute-api

@@ -36,4 +36,8 @@ echo
 
 python3 $TOPO
 
+echo
+echo "Quitting Mininet: " $TOPO
+echo
+
 service openvswitch-switch stop

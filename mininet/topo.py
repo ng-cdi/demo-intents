@@ -72,7 +72,7 @@ from mininet.node import OVSKernelSwitch
 
 if __name__ == '__main__':
     net = Mininet(controller=RemoteController, link=TCLink)
-    net.addController('c0', controller=RemoteController, ip="127.0.0.1", port=6653)
+    net.addController('c0', controller=RemoteController, ip="127.0.0.1", port=6633)
 
     info( '*** Adding Hosts\n' )
     h1 = net.addHost( 'h1', ip='10.0.0.1', mac='00:00:00:00:00:01' )
