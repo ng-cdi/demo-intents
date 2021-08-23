@@ -1,0 +1,9 @@
+name: ciscoProxy
+summary: A simple VNF proxy to program a cisco router
+maintainer: Charalampos Rotsos <c.rotsos@lancaster.ac.uk>
+tags:
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://jujucharms.com/docs/stable/authors-charm-metadata
+  - misc
+subordinate: false
+series: ['bionic']

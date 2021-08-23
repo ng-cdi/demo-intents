@@ -1,0 +1,4 @@
+includes: ['layer:basic', 'layer:vnfproxy']  # if you use any interfaces, add them here
+options:
+  basic:
+    use_venv: false
