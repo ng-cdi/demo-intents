@@ -13,8 +13,8 @@ from charms.reactive import (
 import charms.sshproxy
 
 @when('sshproxy.configured')
-@when_not('ciscoProxy.installed')
-def install_ciscoProxy():
+@when_not('cisco.installed')
+def install_cisco():
     # Do your setup here.
     #
     # If your charm has other dependencies before it can install,
@@ -26,7 +26,7 @@ def install_ciscoProxy():
     #  * https://jujucharms.com/docs/devel/developer-getting-started
     #  * https://github.com/juju-solutions/layer-basic#overview
     #
-    set_flag('ciscoProxy.installed')
+    set_flag('cisco.installed')
     status_set('active', 'Ready!')
 
 @when('actions.touch')

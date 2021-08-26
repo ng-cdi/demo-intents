@@ -1,0 +1,26 @@
+nsd:
+  nsd:
+  - description: NS for a policy updating VNF
+    df:
+    - id: default-df
+      vnf-profile:
+      - id: '1'
+        virtual-link-connectivity:
+        - constituent-cpd-id:
+          - constituent-base-element-id: '1'
+            constituent-cpd-id: vnf-mgmt
+          virtual-link-profile-id: osm-inet
+        - constituent-cpd-id:
+          - constituent-base-element-id: '1'
+            constituent-cpd-id: vnf-router
+          virtual-link-profile-id: demo
+        vnfd-id: routerProxy-vnf
+    id: routerProxy-ns
+    name: routerProxy-ns
+    version: '1.0'
+    virtual-link-desc:
+    - id: osm-inet
+      mgmt-network: true
+    - id: demo
+    vnfd-id:
+    - routerProxy-vnf

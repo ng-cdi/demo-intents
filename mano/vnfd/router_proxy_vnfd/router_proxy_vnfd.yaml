@@ -1,0 +1,98 @@
+vnfd:
+  description: A VNF used to reprogram a Cisco router
+  df:
+  - id: routerProxy
+    instantiation-level:
+    - id: default-instantiation-level
+      vdu-level:
+      - number-of-instances: 1
+        vdu-id: routerProxyVM
+
+    vdu-profile:
+    - id: routerProxyVM
+      min-number-of-instances: 1
+    lcm-operations-configuration:
+      operate-vnf-op-config:
+        day1-2:
+        - config-primitive:
+          - name: touch
+            execution-environment-ref: simple-ee
+            parameter:
+            - data-type: STRING
+              default-value: /home/ubuntu/touched
+              name: filename
+          id: routerProxy-vnf
+          execution-environment-list:
+          - id: simple-ee
+            juju:
+              charm: cisco
+          config-access:
+            ssh-access:
+              default-user: ubuntu
+              required: true
+          initial-config-primitive:
+          - name: config
+            execution-environment-ref: simple-ee
+            parameter:
+            - name: ssh-hostname
+              value: <rw_mgmt_ip>
+            - name: ssh-username
+              value: ubuntu
+            - name: ssh-password
+              value: osm4u
+            seq: 1
+          - name: touch
+            execution-environment-ref: simple-ee
+            parameter:
+            - data-type: STRING
+              name: filename
+              value: /home/ubuntu/first-touch
+            seq: 2
+  ext-cpd:
+  - id: vnf-mgmt
+    int-cpd:
+      cpd: mgmt_intf
+      vdu-id: routerProxyVM
+  - id: vnf-router
+    int-cpd:
+      cpd: router_intf
+      vdu-id: routerProxyVM
+  id: routerProxy-vnf
+  mgmt-cp: vnf-mgmt
+  product-name: routerProxy-vnf
+  sw-image-desc:
+  - id: ubuntu1804
+    image: ubuntu1804
+    name: ubuntu1804
+  vdu:
+  - cloud-init-file: cloud-init-proxy
+    id: routerProxyVM
+    int-cpd:
+    - id: mgmt_intf
+      virtual-network-interface-requirement:
+      - name: eth0
+        position: 1
+        virtual-interface:
+          type: VIRTIO
+    - id: router_intf
+      virtual-network-interface-requirement:
+      - name: eth1
+        position: 2
+        virtual-interface:
+          type: VIRTIO
+    name: mgmtVM
+    sw-image-desc: ubuntu1804
+    virtual-compute-desc: mgmtVM-compute
+    virtual-storage-desc:
+    - mgmtVM-storage
+  version: '1.0'
+  virtual-compute-desc:
+  - id: mgmtVM-compute
+    virtual-cpu:
+      num-virtual-cpu: 1
+    virtual-memory:
+      size: 1.0
+  virtual-storage-desc:
+  - id: mgmtVM-storage
+    size-of-storage: 10
+

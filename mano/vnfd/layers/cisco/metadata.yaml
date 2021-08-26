@@ -1,4 +1,4 @@
-name: ciscoProxy
+name: cisco
 summary: A simple VNF proxy to program a cisco router
 maintainer: Charalampos Rotsos <c.rotsos@lancaster.ac.uk>
 tags:
