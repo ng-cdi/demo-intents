@@ -1,11 +1,11 @@
-#!/usr/bin/env python       
+#!/usr/bin/env python
 
 from mininet.topo import Topo
 from mininet.cli import CLI
 from mininet.rest import REST
 from mininet.net import Mininet
 from mininet.node import RemoteController
-from mininet.link import TCLink
+from mininet.link import TCLink, Intf
 from mininet.log import lg, info
 from mininet.node import Node
 from mininet.topolib import TreeTopo
@@ -84,6 +84,7 @@ if __name__ == '__main__':
     h7 = net.addHost( 'h7', ip='10.0.0.7', mac='00:00:00:00:00:07' )
     h8 = net.addHost( 'h8', ip='10.0.0.8', mac='00:00:00:00:00:08' )
     h9 = net.addHost( 'h9', ip='10.0.0.9', mac='00:00:00:00:00:09' )
+    h10 = net.addHost( 'h10', ip='10.0.0.10', mac='00:00:00:00:00:0a' )
 
 
     info( '*** Adding switches\n' )
@@ -101,7 +102,12 @@ if __name__ == '__main__':
     s12 = net.addSwitch('s12', cls=OVSKernelSwitch, batch=True, failMode="standalone")
     s13 = net.addSwitch('s13', cls=OVSKernelSwitch, batch=True, failMode="standalone")
     s14 = net.addSwitch('s14', cls=OVSKernelSwitch, batch=True, failMode="standalone")
-
+    ctrl1 = net.addSwitch('c1', cls=OVSKernelSwitch, batch=True,
+            failMode="standalone", dpid="21")
+    cisc1 = net.addSwitch('d1', cls=OVSKernelSwitch, batch=True,
+            failMode="standalone", dpid="11")
+    cisc2 = net.addSwitch('d2', cls=OVSKernelSwitch, batch=True,
+            failMode="standalone", dpid="12")
 
     bandwidth = 100
     core_bw = 1000
@@ -116,6 +122,7 @@ if __name__ == '__main__':
     net.addLink(h7, s12, bw=core_bw)
     net.addLink(h8, s13, bw=core_bw)
     net.addLink(h9, s14, bw=core_bw)
+    net.addLink(h10, cisc2, bw=core_bw)
 
     # Access Nodes
     net.addLink(s1, s7, bw=bandwidth)
@@ -143,11 +150,20 @@ if __name__ == '__main__':
     net.addLink(s10, s13, bw=bandwidth)
     net.addLink(s11, s13, bw=bandwidth)
     net.addLink(s11, s14, bw=bandwidth)
+    net.addLink(s11, cisc1, bw=bandwidth)
 
     # Core
     net.addLink(s12, s13, bw=core_bw)
     net.addLink(s12, s14, bw=core_bw)
     net.addLink(s13, s14, bw=core_bw)
+
+    # cisco interfaces
+    net.addLink(cisc2, s14, bw=core_bw)
+    Intf('tap0', node=ctrl1)
+    Intf('tap1', node=cisc1)
+    Intf('tap2', node=cisc1)
+    Intf('tap10', node=cisc2)
+
 
     net.start()
 #    net.pingAll()

@@ -43,3 +43,18 @@ def touch():
         action_set({'output': result})
     finally:
         clear_flag('actions.touch')
+
+@when('actions.upgrade')
+def do_upgrade():
+    """Update the cisco config and set the new link."""
+    err = ''
+    try:
+        filename = action_get('filename')
+        cmd = ['touch {}'.format(filename)]
+        result, err = charms.sshproxy._run(cmd)
+    except:
+        action_fail('command failed: {}'.format(err))
+    else:
+        action_set({'output': result})
+    finally:
+        clear_flag('actions.touch')
