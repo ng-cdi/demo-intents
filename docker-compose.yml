@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 
 services:
   # unsure about starting the cli as a container
@@ -13,16 +13,22 @@ services:
   #     - onos-controller
 
   mininet:
-    build: mininet/.
+    #    build: mininet/.
+    image: mininet
     environment:
       - MN_FLAGS=
       - TOPO=/topologies/topo.py
+      - DYNAGEN_ROUTER_CFG=/topologies/router.cfg
+      - DYNAGEN_IMG=/topologies/c7200-adventerprisek9-mz.153-3.XB12.image
     privileged: true
     network_mode: host
     hostname: localhost
     tty: true
     volumes:
-      - ./mininet/topo.py:/topologies/topo.py
+      - ./mininet/:/topologies/
+    ports:
+      - 2001:2001
+      - 3001:3001
     depends_on:
       - onos-controller
 
@@ -48,3 +54,5 @@ services:
       - ./reroute-api/json:/reroute/json
     environment:
       - TERM=xterm-256color
+    ports:
+      - 8080:80

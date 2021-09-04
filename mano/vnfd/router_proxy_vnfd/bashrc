@@ -1,0 +1,4 @@
+export OSM_HOSTNAME=10.30.64.15
+export JUJU_REPOSITORY=~/charm
+export CHARM_INTERFACES_DIR=/home/cr409/charms/interfaces
+export CHARM_LAYERS_DIR=~/demo-intents/mano/vnfd/layers
