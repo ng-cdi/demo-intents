@@ -162,12 +162,12 @@ if __name__ == '__main__':
     Intf('tap0', node=ctrl1)
     Intf('tap1', node=cisc1)
     Intf('tap2', node=cisc1)
-    Intf('tap10', node=cisc2)
+    Intf('tap3', node=cisc2)
 
 
     net.start()
 #    net.pingAll()
-    REST( net )
+    #REST( net )
     CLI( net )
     net.stop()
 

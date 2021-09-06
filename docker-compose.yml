@@ -13,24 +13,26 @@ services:
   #     - onos-controller
 
   mininet:
-    #    build: mininet/.
-    image: mininet
+    build: mininet/.
+      # image: mininet
     environment:
       - MN_FLAGS=
       - TOPO=/topologies/topo.py
       - DYNAGEN_ROUTER_CFG=/topologies/router.cfg
       - DYNAGEN_IMG=/topologies/c7200-adventerprisek9-mz.153-3.XB12.image
     privileged: true
-    network_mode: host
     hostname: localhost
     tty: true
     volumes:
       - ./mininet/:/topologies/
-    ports:
-      - 2001:2001
-      - 3001:3001
+    # ports:
+    #   - 2001:2001
+    #   - 3001:3001
     depends_on:
       - onos-controller
+    network_mode: host
+    # networks:
+    #   - main
 
   onos-controller:
     container_name: onos-controller
@@ -43,11 +45,12 @@ services:
       - 6653:6653
       - 6640:6640
       - 9876:9876
+    # networks:
+    #   - main
 
   onos-reroute-api:
     container_name: onos-reroute-api
     image: mavi0/onos-reroute-api:latest
-    network_mode: host
     hostname: localhost
     tty: true
     volumes:
@@ -56,3 +59,21 @@ services:
       - TERM=xterm-256color
     ports:
       - 8080:80
+    # networks:
+    #   - main
+
+  intent-deploy:
+    image: ghcr.io/ng-cdi/intent-deploy:latest
+    hostname: localhost
+    environment:
+      - WEBHOOK_USER=
+      - WEBHOOK_PASS=
+      - TELEGRAM_TOKEN=
+      - HOSTS_URL=http://localhost:8181/onos/v1/hosts
+      - SWITCHES_URL=http://localhost:8181/onos/v1/devices
+      - NGCDI_URL=https://localhost:5000/api
+    ports:
+      - 18080:8080
+
+# networks:
+#   main:

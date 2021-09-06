@@ -9,8 +9,17 @@ echo "dynamips --idle-pc 0x641a83e4 -P 7200 -T 2001 -A 3001 \
 	-p 2:PA-GE -s 2:0:tap:tap2 \
 	-C $DYNAGEN_ROUTER_CFG -X $DYNAGEN_IMG &"
 
+ip tuntap add mode tap tap0
+ip tuntap add mode tap tap1
+ip tuntap add mode tap tap3
+ip tuntap add mode tap tap2
+ip link set dev tap0 up 
+ip link set dev tap1 up 
+ip link set dev tap3 up 
+ip link set dev tap2 up 
+
 dynamips --idle-pc 0x641a83e4 -P 7200 -T 2001 -A 3001 \
-	-p 1:PA-4E -s 1:0:tap:tap0 -s 1:1:tap:tap1 -s 1:2:tap:tap10 \
+	-p 1:PA-4E -s 1:0:tap:tap0 -s 1:1:tap:tap1 -s 1:2:tap:tap3 \
 	-p 2:PA-GE -s 2:0:tap:tap2 \
 	-C $DYNAGEN_ROUTER_CFG -X $DYNAGEN_IMG &
 
@@ -55,3 +64,7 @@ echo "Quitting Mininet: " $TOPO
 echo
 
 service openvswitch-switch stop
+ip link delete tap0
+ip link delete tap1
+ip link delete tap2
+ip link delete tap3
