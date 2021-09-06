@@ -22,5 +22,6 @@ nsd:
     - id: osm-inet
       mgmt-network: true
     - id: demo
+      vim-network-name: demo
     vnfd-id:
     - routerProxy-vnf

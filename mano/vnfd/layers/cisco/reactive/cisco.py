@@ -49,12 +49,40 @@ def do_upgrade():
     """Update the cisco config and set the new link."""
     err = ''
     try:
-        filename = action_get('filename')
-        cmd = ['touch {}'.format(filename)]
+        cmd = ['python3 /usr/bin/config.py upgrade']
         result, err = charms.sshproxy._run(cmd)
     except:
         action_fail('command failed: {}'.format(err))
     else:
         action_set({'output': result})
     finally:
-        clear_flag('actions.touch')
+        clear_flag('actions.upgrade')
+
+@when('actions.downgrade')
+def do_downgrade():
+    """Update the cisco config and revert to old link."""
+    err = ''
+    try:
+        cmd = ['python3 /usr/bin/config.py downgrade']
+        result, err = charms.sshproxy._run(cmd)
+    except:
+        action_fail('command failed: {}'.format(err))
+    else:
+        action_set({'output': result})
+    finally:
+        clear_flag('actions.downgrade')
+
+@when('actions.test')
+def do_test():
+    """Test if config was successful."""
+    err = ''
+    try:
+        filename = action_get('host')
+        cmd = ['python3 /usr/bin/config.py test']
+        result, err = charms.sshproxy._run(cmd)
+    except:
+        action_fail('command failed: {}'.format(err))
+    else:
+        action_set({'output': result})
+    finally:
+        clear_flag('actions.test')

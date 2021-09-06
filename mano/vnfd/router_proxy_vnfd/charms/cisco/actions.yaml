@@ -41,7 +41,7 @@
 "reboot":
   "description": "Reboot the VNF virtual machine."
 "upgrade":
-  "description": "Upgrade the software on the VNF."
+  "description": "Switch forwarding to the high-b/w intf"
 "touch":
   "description": "Touch a file on the VNF."
   "params":
@@ -51,3 +51,14 @@
       "default": ""
   "required":
   - "filename"
+"downgrade":
+  "description": "Switch forwarding to the low b/w intf"
+"test":
+  "description": "Validate if interface is working"
+  "params":
+    "host":
+      "description": "The IP of a testing host"
+      "type": "string"
+      "default": "10.10.0.3"
+  "required":
+  - "host"

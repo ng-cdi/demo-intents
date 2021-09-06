@@ -21,6 +21,16 @@ vnfd:
             - data-type: STRING
               default-value: /home/ubuntu/touched
               name: filename
+          - name: upgrade
+            execution-environment-ref: simple-ee
+          - name: downgrade
+            execution-environment-ref: simple-ee
+          - name: test
+            execution-environment-ref: simple-ee
+            parameter:
+              - data-type: STRING
+                default-value: 10.10.0.3
+                name: host
           id: routerProxy-vnf
           execution-environment-list:
           - id: simple-ee

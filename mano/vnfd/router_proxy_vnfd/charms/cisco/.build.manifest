@@ -25,8 +25,8 @@
       "url": "layer:vnfproxy"
     },
     {
-      "branch": "refs/heads/master",
-      "rev": "9ac329e565464e6d20805216d898d945db93e6d4",
+      "branch": "refs/heads/master\nrefs/heads/rt-upgrade",
+      "rev": "aaa794e71e05d5089afc3c52e1e16a771bebe2b4",
       "url": "cisco"
     }
   ],
@@ -69,7 +69,12 @@
     "actions.yaml": [
       "cisco",
       "dynamic",
-      "ac75f1585b99b536feb6edb0866a5575b8e6390b2cbd7b767b1c573dd83051bd"
+      "a8e0d66fcdd4103aa34d3801f27156e6f218c01e1154a8908ed6cd982c3695ff"
+    ],
+    "actions/downgrade": [
+      "cisco",
+      "static",
+      "cdd4210fbfb1ef47415dca8c603db1cd9fad3e238a5ab7ef7186ef7a5c364a3e"
     ],
     "actions/generate-ssh-key": [
       "layer:sshproxy",
@@ -106,15 +111,20 @@
       "static",
       "afc0df4409fb6eb7b7e6595490913c1efe329b393d4860ae226d8aaccc01fcf2"
     ],
+    "actions/test": [
+      "cisco",
+      "static",
+      "cdd4210fbfb1ef47415dca8c603db1cd9fad3e238a5ab7ef7186ef7a5c364a3e"
+    ],
     "actions/touch": [
       "cisco",
       "static",
       "cdd4210fbfb1ef47415dca8c603db1cd9fad3e238a5ab7ef7186ef7a5c364a3e"
     ],
     "actions/upgrade": [
-      "layer:vnfproxy",
+      "cisco",
       "static",
-      "afc0df4409fb6eb7b7e6595490913c1efe329b393d4860ae226d8aaccc01fcf2"
+      "cdd4210fbfb1ef47415dca8c603db1cd9fad3e238a5ab7ef7186ef7a5c364a3e"
     ],
     "actions/verify-ssh-credentials": [
       "layer:sshproxy",
@@ -254,7 +264,7 @@
     "reactive/cisco.py": [
       "cisco",
       "static",
-      "dd7929d20ca134c48067dcd786b279c9d0388424b4419cfb2864ab153fe802d2"
+      "7d6dd7434df49ab2714881d5f8847a7f8f03b8b8bee648b923b9dcaf7eac892e"
     ],
     "reactive/sshproxy.py": [
       "layer:sshproxy",
@@ -284,7 +294,7 @@
     "version": [
       "cisco",
       "dynamic",
-      "603ed0daec92c571082686f60ca0c31ee5819859bec73ed268905290bab9e256"
+      "2176b71ebbc585403f5e0dcb5c448b0af7af615960f86bf41a2418d2d098bea8"
     ],
     "wheelhouse.txt": [
       "layer:sshproxy",
