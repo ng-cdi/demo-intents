@@ -14,6 +14,9 @@ dynamips --idle-pc 0x641a83e4 -P 7200 -T 2001 -A 3001 \
 	-p 2:PA-GE -s 2:0:tap:tap2 \
 	-C $DYNAGEN_ROUTER_CFG -X $DYNAGEN_IMG &
 
+brctl addbr mgmt
+brctl addif mgmt tap0
+ifconfig mgmt 192.168.0.100/24 up
 
 ## hack this in, otherwise we start before onos is up fully and die
 echo "MININET waiting for ONOS"
@@ -53,5 +56,9 @@ python3 $TOPO
 echo
 echo "Quitting Mininet: " $TOPO
 echo
+
+ifconfig mgmt 0.0.0.0 down
+brctl delif mgmt tap0
+brctl delbr mgmt
 
 service openvswitch-switch stop
