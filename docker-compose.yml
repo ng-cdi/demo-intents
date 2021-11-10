@@ -28,7 +28,7 @@ services:
 
   onos-controller:
     container_name: onos-controller
-    image: ghcr.io/ng-cdi/onos-docker:intents-demo
+    image: ghcr.io/ng-cdi/demo-onos:2.6
     hostname: localhost
     ports:
       - 8101:8101
