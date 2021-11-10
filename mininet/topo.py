@@ -150,7 +150,7 @@ if __name__ == '__main__':
     net.addLink(s13, s14, bw=core_bw)
 
     net.start()
-#    net.pingAll()
+    net.pingAll()
     REST( net )
     CLI( net )
     net.stop()

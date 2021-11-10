@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.2'
 
 services:
   # unsure about starting the cli as a container
@@ -20,6 +20,7 @@ services:
     privileged: true
     network_mode: host
     hostname: localhost
+    stdin_open: true
     tty: true
     volumes:
       - ./mininet/topo.py:/topologies/topo.py
@@ -27,7 +28,6 @@ services:
       - onos-controller
 
   onos-controller:
-    container_name: onos-controller
     image: ghcr.io/ng-cdi/demo-onos:2.6
     hostname: localhost
     ports:
@@ -39,7 +39,6 @@ services:
       - 9876:9876
 
   onos-reroute-api:
-    container_name: onos-reroute-api
     image: ghcr.io/mavi0/onos-reroute-api:latest
     network_mode: host
     hostname: localhost
