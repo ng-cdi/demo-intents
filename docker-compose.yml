@@ -40,7 +40,7 @@ services:
 
   onos-reroute-api:
     container_name: onos-reroute-api
-    image: mavi0/onos-reroute-api:latest
+    image: ghcr.io/mavi0/onos-reroute-api:latest
     network_mode: host
     hostname: localhost
     tty: true
