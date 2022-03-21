@@ -13,17 +13,18 @@ services:
   #     - onos-controller
 
   mininet:
-    build: mininet/.
+    image: ghcr.io/ng-cdi/intent-tester:latest
     environment:
       - MN_FLAGS=
-      - TOPO=/topologies/topo.py
+      - TOPO=/mnt/topo.py
     privileged: true
     network_mode: host
     hostname: localhost
     stdin_open: true
     tty: true
     volumes:
-      - ./mininet/topo.py:/topologies/topo.py
+      - ./batfish/:/extra/
+      - ./mininet/:/mnt/
     depends_on:
       - onos-controller
 
