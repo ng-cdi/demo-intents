@@ -20,6 +20,7 @@ sleep 5
 curl -X POST --user onos:rocks http://localhost:8181/onos/v1/applications/org.onosproject.openflow/active
 curl -X DELETE --user onos:rocks http://localhost:8181/onos/v1/applications/org.onosproject.fwd/active
 curl -X POST --user onos:rocks http://localhost:8181/onos/v1/applications/org.onosproject.imr/active
+curl -X POST --user onos:rocks http://localhost:8181/onos/v1/applications/org.onosproject.ifwd/active
 
 service openvswitch-switch start
 ovs-vsctl set-manager ptcp:6640
