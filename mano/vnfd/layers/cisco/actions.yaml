@@ -7,3 +7,16 @@ touch:
       default: ""
   required:
   - filename
+upgrade:
+  description: "Switch forwarding to the high-b/w intf"
+downgrade:
+  description: "Switch forwarding to the low b/w intf"
+test:
+  description: "Validate if interface is working"
+  params:
+    host:
+      description: "The IP of a testing host"
+      type: string
+      default: "10.10.0.3"
+  required:
+    - host

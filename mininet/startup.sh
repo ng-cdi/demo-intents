@@ -29,7 +29,7 @@ echo
 echo "Cleaning MN"
 echo
 
-sudo mn -c
+mn -c
 
 echo
 echo "Running Topology: " $TOPO

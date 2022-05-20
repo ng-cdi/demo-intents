@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.3'
 
 services:
   # unsure about starting the cli as a container
@@ -16,15 +16,19 @@ services:
     image: ghcr.io/ng-cdi/intent-tester:latest
     environment:
       - MN_FLAGS=
-      - TOPO=/mnt/topo.py
+      - TOPO=/topologies/topo.py
     privileged: true
     network_mode: host
     hostname: localhost
-    stdin_open: true
     tty: true
     volumes:
-      - ./batfish/:/extra/
-      - ./mininet/:/mnt/
+      - ./batfish/:/batfish/
+      - ./mininet/:/topologies/
+    # ports:
+    #   - 2001:2001
+    #   - 3001:3001
+    #   - 7123:7123
+    command: "/topologies/startup.sh"
     depends_on:
       - onos-controller
 
@@ -40,7 +44,8 @@ services:
       - 9876:9876
 
   onos-reroute-api:
-    image: ghcr.io/mavi0/onos-reroute-api:latest
+    container_name: onos-reroute-api
+    image: mavi0/onos-reroute-api:latest
     network_mode: host
     hostname: localhost
     tty: true

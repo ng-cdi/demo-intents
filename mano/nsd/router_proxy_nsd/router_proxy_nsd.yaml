@@ -10,10 +10,6 @@ nsd:
           - constituent-base-element-id: '1'
             constituent-cpd-id: vnf-mgmt
           virtual-link-profile-id: osm-inet
-        - constituent-cpd-id:
-          - constituent-base-element-id: '1'
-            constituent-cpd-id: vnf-router
-          virtual-link-profile-id: demo
         vnfd-id: routerProxy-vnf
     id: routerProxy-ns
     name: routerProxy-ns
@@ -21,6 +17,5 @@ nsd:
     virtual-link-desc:
     - id: osm-inet
       mgmt-network: true
-    - id: demo
     vnfd-id:
     - routerProxy-vnf

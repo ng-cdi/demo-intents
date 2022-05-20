@@ -226,8 +226,8 @@
         "interfaceName": "GigabitEthernet3/0"
       },
       "node2": {
-        "hostname": "host1",
-        "interfaceName": "eth0"
+        "hostname": "h7",
+        "interfaceName": "eth1"
       }
     },
     {
@@ -236,8 +236,8 @@
         "interfaceName": "GigabitEthernet5/0"
       },
       "node2": {
-        "hostname": "host2",
-        "interfaceName": "eth0"
+        "hostname": "h8",
+        "interfaceName": "eth1"
       }
     },
     {
@@ -382,8 +382,8 @@
     },
     {
       "node1": {
-        "hostname": "host1",
-        "interfaceName": "eth0"
+        "hostname": "h7",
+        "interfaceName": "eth1"
       },
       "node2": {
         "hostname": "as2dept1",
@@ -392,8 +392,8 @@
     },
     {
       "node1": {
-        "hostname": "host2",
-        "interfaceName": "eth0"
+        "hostname": "h8",
+        "interfaceName": "eth1"
       },
       "node2": {
         "hostname": "as2dept1",

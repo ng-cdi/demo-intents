@@ -5,7 +5,7 @@
 1. Start everything up:`docker-compose up`
 2. Connect to the onos cli: `ssh -o StrictHostKeyChecking=no -l onos -p 8101
    localhost`
-3. In the onos cli, run: `imr:startmon 187 org.onosproject.ifwd`
+3. !!important!!: In the onos cli, run: `imr:startmon 187 org.onosproject.ifwd`
 
 ### To shut down
 
