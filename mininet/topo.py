@@ -20,6 +20,7 @@ from mtv.node import (
     OVSKernelSwitch,
     Switch,
     DynamipsRouter,
+    DynamipsHostRouter,
 )
 from mtv.node import Node as MTVNode
 
@@ -193,16 +194,19 @@ def do_inferred_topo():
             host.intf(src["intf"]).setMAC(src["mac"])
 
         for name, host in hosts.items():
-            if name in ["h7", "h8", "h9"]:
+            if name in ["h7", "h8"]:
                 continue
 
             inst = host["instance"]
-            inst.cmd(f"ip route add 2.128.0.0/24 via 10.0.0.2")
-            inst.cmd(f"ip route add 2.128.1.0/24 via 10.0.0.2")
+            inst.cmd(f"ip route add 2.128.0.0/24 via 10.0.0.7")
+            inst.cmd(f"ip route add 2.128.1.0/24 via 10.0.0.8")
 
         hosts["h7"]["instance"].cmd(f"iptables -t nat -I POSTROUTING -o h7-eth1 -j SNAT --to 2.128.0.101")
+        hosts["h8"]["instance"].cmd(f"iptables -t nat -I POSTROUTING -o h8-eth1 -j SNAT --to 2.128.1.101")
+        hosts["h7"]["instance"].cmd(f"ip route add 2.128.1.0/24 via 10.0.0.8")
+        hosts["h8"]["instance"].cmd(f"ip route add 2.128.0.0/24 via 10.0.0.7")
 
-    return post_build
+    return post_build, hosts
 
 
 ############################
@@ -340,17 +344,41 @@ def do_batfish():
                 assert host.instance is not None
                 iname = f"{host.hostname}-{name}"
                 host.instance.setIP(prefix, intf=iname)
-                host.instance.setDefaultRoute(f"dev {iname} via {gateway}")
+                #host.instance.cmd("ip route add 11.0.0.0/8 via 10.0.0.50")
+                #host.instance.setDefaultRoute(f"dev {iname} via {gateway}")
                 # host.instance.cmd("ip route add 10.0.0.0/24 via eth0")
 
     return post_start
 
 def add_inter():
-    h50 = net.addSwitch(
-        "h50",
-        cls=DynamipsRouter,
+
+    config = """hostname h50r
+ip routing
+router rip
+version 2
+network 10.0.0.0
+network 11.0.0.0
+interface FastEthernet 1/0
+no cdp enable
+ip address 10.0.0.50 255.0.0.0
+no shut
+interface GigabitEthernet 2/0
+no cdp enable
+ip address 10.0.0.50 255.0.0.0
+shut
+interface FastEthernet 3/0
+no cdp enable
+ip address 11.0.0.1 255.0.0.0
+no shut
+end"""
+
+    h50r = net.addHost(
+        "h50r",
+        ip="10.0.0.50",
+        cls=DynamipsHostRouter,
         dynamips_platform="7200",
         dynamips_image=dynamips_image,
+        dynamips_console_port=7123,
         dynamips_args=[
             "-i {}".format("h10"),
             "--idle-pc=0x60630338",
@@ -358,32 +386,57 @@ def add_inter():
             "-o 64",
             "-r 200",
         ],
-        dynamips_console_port=7123,
-        dynamips_port_driver=("PA-FE-TX", "FastEthernet", 1),
+        dynamips_config=config,
+        dynamips_ports=[("PA-FE-TX", "FastEthernet", 1, [(0, "s6")]),
+                        ("PA-GE", "GigabitEthernet", 2, [(0, "s7")]),
+                        ("PA-FE-TX", "FastEthernet", 3, [(0, "h52")])],
     )
-    net.addLink("s6", h50, params2={"ip": "10.0.0.50/24"}, addr2="00:00:00:00:00:32")
 
-    def post_build():
+    h52 = net.addHost("h52", ip="11.0.0.52/8")
+    s6_h50r_link = net.addLink("s6", h50r, addr2="00:00:00:00:00:32")
+    s7_h50r_link = net.addLink("s7", h50r, addr2="00:00:00:00:00:32")
+    h52_h50r_link = net.addLink(h52, h50r)
+
+    def post_build(hosts):
         pass
-        # h50.intf("h50-eth0").setMAC("00:00:00:00:00:32")
+        # h50r.setIP("10.0.0.50", intf=)
 
-    return post_build
+        # h50.setIP("11.0.0.50/8", intf=h50_h50r_link.intf1)
+        # h51.setIP("11.1.0.51/8", intf=h51_h50r_link.intf1)
+        # h52.setIP("11.2.0.52/8", intf=h52_h50r_link.intf1)
+        # h52.cmd("ip route add 10.0.0.0/8 via 11.0.0.1")
+        # h50.cmd(f"iptables -t nat -I POSTROUTING -o {h50_h50r_link.intf1} -j SNAT --to 11.0.0.50")
+        # h51.cmd(f"iptables -t nat -I POSTROUTING -o {h51_h50r_link.intf1} -j SNAT --to 11.1.0.51")
+
+    def post_start(hosts):
+        for host in hosts.values():
+            inst = host["instance"]
+            inst.cmd("ip route add 11.0.0.0/8 via 10.0.0.50")
+        h52.cmd("ip route add 10.0.0.0/8 via 11.0.0.1")
+        h50r.start()
+        h50r.cmd("nohup socat unix-listen:/tmp/h50r-sock,fork tcp-connect:127.0.0.1:7123 &")
+        # stupid hack, run the comand in s1
+        s1 = net.getNodeByName("s1")
+        s1.cmd("nohup socat tcp-listen:7123,reuseaddr,fork unix-connect:/tmp/h50r-sock &")
+
+    return post_build, post_start
 
 # h1 ip r add 2.128.0.0/24 via 10.0.0.2
 # h1 ip r add 2.128.1.0/24 via 10.0.0.2
 
-post_build = do_inferred_topo()
+post_build, hosts = do_inferred_topo()
 post_start = do_batfish()
-post_build_2 = add_inter()
+post_build_2, post_start_2 = add_inter()
 
 print("Added everything, starting up")
 
 net.build()
 post_build()
-post_build_2()
+post_build_2(hosts)
 net.start()
-net.staticArp()
+# net.staticArp()
 post_start()
+post_start_2(hosts)
 net.pingAll()
 
 print("Finished startup")

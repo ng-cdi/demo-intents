@@ -21,6 +21,7 @@ services:
     network_mode: host
     hostname: localhost
     tty: true
+    stdin_open: true
     volumes:
       - ./batfish/:/batfish/
       - ./mininet/:/topologies/

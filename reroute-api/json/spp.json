@@ -1,0 +1,52 @@
+{
+    "spp": [
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T09:40:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-26T09:30:00+01:00",
+            "username": "mehdi",
+            "uuid": "f4f5d0cb-fb22-43be-a3c5-df4f729fe2e6"
+        },
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T09:40:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-26T09:30:00+01:00",
+            "username": "mehdi",
+            "uuid": "5079b8af-8120-4458-bcab-191f39874ca4"
+        },
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T10:40:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-25T10:30:00+01:00",
+            "username": "mehdi",
+            "uuid": "5940d676-74c5-4511-8bd7-3bd58bd40a7a"
+        },
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T20:40:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-25T20:30:00+01:00",
+            "username": "mehdi",
+            "uuid": "a696d066-ff12-4fd4-ac36-576066517148"
+        },
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T23:00:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-25T18:00:00+01:00",
+            "username": "mehdi",
+            "uuid": "267dc8d3-b276-4f41-bd8f-e85e61e3d648"
+        },
+        {
+            "enabled": true,
+            "end_time": "2022-05-25T23:00:00+01:00",
+            "priority": 10,
+            "start_time": "2022-05-26T06:00:00+01:00",
+            "username": "mehdi",
+            "uuid": "1da37e03-b337-45a9-b10f-1c11a24c79e7"
+        }
+    ]
+}
